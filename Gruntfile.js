@@ -17,30 +17,49 @@ module.exports = function(grunt) {
 		less: {
 			src: {
 				files: {
-					"css/styles.css": "src/less/styles.less"
+					"dist/css/styles.css": "src/less/styles.less"
 				}
 			},
 			dist: {
 				files: {
-					"css/styles.css": "src/less/styles.less"
+					"dist/css/styles.css": "src/less/styles.less"
 				},
 				options: {
 					compress: true,
-					yuicompress: true,
-					report: 'gzip'
+					yuicompress: true
 				}
 			}
 		},
 
-		targethtml: {
+		copy: {
 			dist: {
-				files: {
-					'dist/index.html': 'src/index.html',
-					'dist/js/script.js': 'src/js/script.js',
-					'dist/rsrc/email.php': 'src/rsrc/email.php',
-					'dist/img/new-cheese-gr.png': 'src/img/new-cheese-gr.png',
-					'dist/img/bg-tile.png': 'src/img/bg-tile.png'
-				}
+				files: [
+					{
+						expand: true,
+						src: 'src/img/*',
+						dest: 'dist/img/',
+						flatten: true
+					},
+					{
+						expand: true,
+						src: 'src/js/*',
+						dest: 'dist/js/',
+						flatten: true
+					},
+					{
+						expand: true,
+						src: 'src/rsrc/*',
+						dest: 'dist/rsrc/',
+						flatten: true
+					},
+					{
+						expand: true,
+						src: 'src/*.html',
+						dest: 'dist/',
+						flatten: true,
+						filter: 'isFile'
+					}
+				]
 			}
 		},
 
@@ -54,13 +73,14 @@ module.exports = function(grunt) {
 
 	grunt.loadNpmTasks("grunt-php");
 	grunt.loadNpmTasks("grunt-contrib-less");
+	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-watch");
-	grunt.loadNpmTasks('grunt-targethtml');
 
 	grunt.registerTask("dist", [
-		"targethtml",
+		"copy",
+		"less",
 		"php",
 		"watch"
 	]);
-	
+
 };

@@ -13,10 +13,8 @@
   "dependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-less": "~0.7.0",
+    "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-php": "~0.2.0",
-    "bower": "~1.2.7",
-    "requirejs": "~2.1.8",
-    "grunt-targethtml": "~0.2.6"
+    "grunt-php": "~0.2.0"
   }
 }
