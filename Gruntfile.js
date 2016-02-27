@@ -16,9 +16,6 @@ module.exports = function(grunt) {
 
 		less: {
 			dev: {
-				options: {
-					paths: ['dev/css']
-				},
 				files: {
 					'dist/css/styles.css': 'dev/less/styles.less'
 				}
@@ -58,7 +55,7 @@ module.exports = function(grunt) {
 		watch: {
 			less: {
 				files: ['dev/less/*.less'],
-				tasks: ['copy:less'],
+				tasks: ['less'],
 				options: {
 					spawn: false,
 					livereload: false
