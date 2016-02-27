@@ -3,58 +3,50 @@ module.exports = function(grunt) {
 	// project config
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		php: {
-			test: {
+
+		express: {
+			server: {
 				options: {
-					port: 5005,
-					hostname: 'localhost',
-					base: 'dist',
-					keepalive: true,
-					open: true
+					port: 8050,
+					host: 'http://localhost',
+					bases: 'dist'
 				}
 			}
 		},
+
 		less: {
-			src: {
-				files: {
-					"dist/css/styles.css": "src/less/styles.less"
-				}
-			},
-			dist: {
-				files: {
-					"dist/css/styles.css": "src/less/styles.less"
-				},
+			dev: {
 				options: {
-					compress: true,
-					yuicompress: true
+					paths: ['dev/css']
+				},
+				files: {
+					'dist/css/styles.css': 'dev/less/styles.less'
 				}
 			}
 		},
 
 		copy: {
-			dist: {
+			less: {
 				files: [
 					{
 						expand: true,
-						src: 'src/img/*',
+						src: 'dev/less/*',
+						dest: 'dist/css/',
+						flatten: true
+					}
+				]
+			},
+			html: {
+				files: [
+					{
+						expand: true,
+						src: 'dev/img/*',
 						dest: 'dist/img/',
 						flatten: true
 					},
 					{
 						expand: true,
-						src: 'src/js/*',
-						dest: 'dist/js/',
-						flatten: true
-					},
-					{
-						expand: true,
-						src: 'src/rsrc/*',
-						dest: 'dist/rsrc/',
-						flatten: true
-					},
-					{
-						expand: true,
-						src: 'src/*.html',
+						src: 'dev/*.html',
 						dest: 'dist/',
 						flatten: true,
 						filter: 'isFile'
@@ -64,23 +56,38 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-			css: {
-				files: ['src/less/*.less','src/index.html'],
-				tasks: ['less']
+			less: {
+				files: ['dev/less/*.less'],
+				tasks: ['copy:less'],
+				options: {
+					spawn: false,
+					livereload: false
+				}
 			}
 		}
 	});
 
-	grunt.loadNpmTasks("grunt-php");
-	grunt.loadNpmTasks("grunt-contrib-less");
-	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks('grunt-express');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	grunt.registerTask("dist", [
-		"copy",
-		"less",
-		"php",
-		"watch"
+	grunt.registerTask('default', [
+		'build',
+		'server'
+	]);
+
+	grunt.registerTask('build', [
+		'copy',
+		'less'
+	]);
+
+	grunt.registerTask('server', [
+		'express',
+		'watch',
+		'less',
+		'copy',
+		'express-keepalive'
 	]);
 
 };
