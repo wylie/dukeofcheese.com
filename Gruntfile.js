@@ -37,12 +37,6 @@ module.exports = function(grunt) {
 				files: [
 					{
 						expand: true,
-						src: 'dev/img/*',
-						dest: 'dist/img/',
-						flatten: true
-					},
-					{
-						expand: true,
 						src: 'dev/*.html',
 						dest: 'dist/',
 						flatten: true,
@@ -55,11 +49,11 @@ module.exports = function(grunt) {
 		watch: {
 			less: {
 				files: ['dev/less/*.less'],
-				tasks: ['less'],
-				options: {
-					spawn: false,
-					livereload: false
-				}
+				tasks: ['less']
+			},
+			html: {
+				files: ['dev/*.html'],
+				tasks: ['copy:html']
 			}
 		}
 	});
