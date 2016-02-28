@@ -15,7 +15,6 @@
     "grunt-contrib-less": "~0.7.0",
     "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-php": "~0.2.0",
     "grunt-express": "^1.4.1"
   }
 }
